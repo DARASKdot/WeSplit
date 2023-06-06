@@ -1,8 +1,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ContentView: View {
     
     @State private var name = ""
@@ -34,25 +32,15 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    Group {
-                        TextField("Enter your name", text: $name)
-                        Text("Your Name is \(name)")
-                    }
+                    TextField("Enter your name", text: $name)
+                    Text("Your Name is \(name)")
                 }
                 
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    TextField("Amount", value: $checkAmount, format: currencyFormatter)
                         .keyboardType(.decimalPad)
-                        .toolbar {
-                            ToolbarItemGroup(placement: .keyboard) {
-                                Spacer()
-
-                                Button("Done") {
-                                    amountIsFocused = false
-                                }
-                            }
-                        }
-
+                        .focused($amountIsFocused)
+                        
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach(2 ..< 100) {
                             Text("\($0) people")
@@ -85,6 +73,15 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("WeSplit")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+
+                    Button("Done") {
+                        amountIsFocused = false
+                    }
+                }
+            }
         }
     }
 }
