@@ -28,19 +28,19 @@ struct ContentView: View {
                 //ListやForm内のコンテンツのグループ化の区切りに使う。Groupは論理的なまとまりの集合に使う
                 Section {
                     Group {
-                        Button("Tap Count: \(tapCount)") {
-                            self.tapCount += 1
-                        }
+//                        Button("Tap Count: \(tapCount)") {
+//                            self.tapCount += 1
+//                        }
                         TextField("Enter your name", text: $name)
                         Text("Your Name is \(name)")
                     }
                     
-                    Group {
-                        Button("Greeting Button") {
-                            greetingText = greeter.greet(name: name)
-                        }
-                        Text(greetingText)
-                    }
+//                    Group {
+//                        Button("Greeting Button") {
+//                            greetingText = greeter.greet(name: name)
+//                        }
+//                        Text(greetingText)
+//                    }
                 }
                 
                 Section {
@@ -51,28 +51,50 @@ struct ContentView: View {
                     }
                 }
                 
+                //省略記法
+//                Section {
+//                    Picker("Select your student", selection: $selectedStudent) {
+//                        ForEach(students, id: \.self) {
+//                            Text($0)
+//                        }
+//                    }
+//                }
+//                Section {
+//                    //古い記述方法。??はデフォルト値を表す。
+////                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+//
+//                    //最新の記述方法。currencyはnilの場合があるため?が必要
+//                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+//                    }
+
+//                Section {
+//                    //checkAmountの表示のみ
+//                    Text(checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+//                }
                 
                 Section {
-                    Picker("Select your student", selection: $selectedStudent) {
-                        ForEach(students, id: \.self) {
-                            Text($0)
+                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        .keyboardType(.decimalPad)
+
+                    Picker("Number of people", selection: $numberOfPeople) {
+                        ForEach(2 ..< 100) {
+                            Text("\($0) people")
                         }
                     }
                 }
+                
                 Section {
-                    //古い記述方法。??はデフォルト値を表す。
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
-                    
-                    //最新の記述方法。currencyはnilの場合があるため?が必要
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Picker("Tip percentage", selection: $tipPercentage) {
+                        ForEach(tipPercentages, id: \.self) {
+                            Text($0, format: .percent)
+                        }
                     }
-
-                Section {
-                    //checkAmountの表示のみ
-                    Text(checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("How much tip do you want to leave?")
                 }
             }
-        }.navigationTitle("Hi! \(name)")
+        }.navigationTitle("WeSplit")
     }
 }
 
